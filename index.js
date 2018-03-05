@@ -42,8 +42,14 @@ function distance(a, b) {
     return mag(sub(a, b))
 }
 
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
 function toColor(a) {
-    
+    let [r, g, b] = a
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 function toVector(a) {
@@ -59,9 +65,10 @@ function showColors(colors) {
 	colorList.removeChild(colorList.firstChild)
     }
     for (color of colors) { // populate colorList, storing color in each element
+	const c = toColor(color)
 	const d = document.createElement('div')
-	d.style.backgroundColor = 'rgb('+ color.join(',') +')';
-	d.innerText = color
+	d.style.backgroundColor = c
+	d.innerText = c
 	d.attachedColor = color
 	d.onclick = onClick
 	colorList.appendChild(d)
@@ -75,9 +82,10 @@ function remove(array, element) {
 
 function onClick() {
     let self = this // the element that was clicked on
-    remove(shown, self.attachedColor)
+    // remove(shown, self.attachedColor)
     dislikes.push(self.attachedColor)
-    shown.push(pickNewColor())
+    shown.splice(0) // clear last list
+    fillSuggestions()
     showColors(shown)
 }
 
@@ -119,10 +127,10 @@ function pickNewColor(start) {
 function toOptimize(a) {
     let b = 0
     for (d of dislikes) {
-	b += 1 / sqrDist(a, d)
+	b += 1 / (sqrDist(a, d) + 0.01)
     }
     for (d of shown) {
-	b += 1 / sqrDist(a, d)
+	b += 1 / (sqrDist(a, d) + 0.01)
     }
     return -b
 }
@@ -137,8 +145,11 @@ function max(iterator, f) {
     return m
 }
 
-for (i = 0; i < 10; i++) {
-    shown.push(pickNewColor())
+function fillSuggestions() {
+    for (i = 0; i < 6; i++) {
+	shown.push(pickNewColor())
+    }
+    showColors(shown)
 }
-showColors(shown)
 
+fillSuggestions()

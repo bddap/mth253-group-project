@@ -2,7 +2,11 @@
     <style>
      body {
 	 font-family: sans-serif;
-	 text-align: center;
+	 margin: 1em auto;
+	 max-width: 40em;
+     }
+     h1 {
+	 margin: 1em 0 1em 0;
      }
      #color-list {
 	 display: flex;
@@ -12,11 +16,22 @@
      }
      #color-list > * {
 	 padding: 2em;
+         min-width: 10em;
+	 flex-grow: 1;
+	 text-align: center;
+	 cursor: pointer;
+     }
+     #description {
+	 margin-top: 2em;
      }
     </style>
 </head>
 <body>
     <h1>Click the colors you don't like.</h1>
     <div id="color-list"></div>
+    <div id="description">
+	<h2>How does it work?</h2>
+	<p>Decription goes here.</p>
+    </div>
     <script src="index.js"></script>
 </body>
