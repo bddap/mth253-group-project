@@ -119,12 +119,12 @@ function pickNewColor(start) {
 function toOptimize(a) {
     let b = 0
     for (d of dislikes) {
-	b += sqrDist(a, d)
+	b += 1 / sqrDist(a, d)
     }
     for (d of shown) {
-	b += sqrDist(a, d)
+	b += 1 / sqrDist(a, d)
     }
-    return b
+    return -b
 }
 
 function max(iterator, f) {
